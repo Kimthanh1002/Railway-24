@@ -4,17 +4,17 @@ CREATE DATABASE IF NOT EXISTS testing_system_assignment_1;
 USE testing_system_assignment_1;
 DROP TABLE IF EXISTS  department;
 CREATE TABLE department(
-Department_id   SMALLINT UNSIGNED PRIMARY KEY,
+Department_id   SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 Department_name VARCHAR(50) UNIQUE
 );
 DROP TABLE IF EXISTS  `position`;
 CREATE TABLE `position` ( 
-Position_id     SMALLINT UNSIGNED PRIMARY KEY,
+Position_id     SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 Position_name   VARCHAR(50) UNIQUE NOT NULL
 );
 DROP TABLE IF EXISTS  `account`;
 CREATE TABLE `account` (
-Account_id      SMALLINT UNSIGNED PRIMARY KEY,
+Account_id      SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 Email           VARCHAR(50),
 User_name       VARCHAR(50) UNIQUE NOT NULL,
 Full_name       VARCHAR(50) NOT NULL,
@@ -28,7 +28,7 @@ FOREIGN KEY (Position_id) REFERENCES `position` (Position_id)
 );
 DROP TABLE IF EXISTS  `group`;
 CREATE TABLE `group` (
-Group_id       SMALLINT UNSIGNED PRIMARY KEY,
+Group_id       SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 Group_name      VARCHAR(50) UNIQUE NOT NULL,
 Creator_id      SMALLINT UNSIGNED NOT NULL,
 Create_date     DATE NOT NULL,
@@ -44,7 +44,7 @@ FOREIGN KEY (Account_id) REFERENCES `account` (Account_id)
 -- bài tập 2_tạo bảng mới
 DROP TABLE IF EXISTS trainee;
 CREATE TABLE trainee( 
-Trainee_id      SMALLINT UNSIGNED PRIMARY KEY,
+Trainee_id      SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 Full_name       VARCHAR(50),
 Birth_date      DATE NOT NULL,
 Gender          ENUM('male','female','unknow'),
