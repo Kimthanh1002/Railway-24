@@ -32,7 +32,7 @@ User_name       VARCHAR(50) UNIQUE NOT NULL,
 Full_name       VARCHAR(50) NOT NULL,
 Department_id   SMALLINT UNSIGNED,
 Position_id     SMALLINT UNSIGNED,
-Create_date     DATE DEFAULT NOW(),
+Create_date     DATETIME DEFAULT NOW(),
 
 FOREIGN KEY (Department_id) REFERENCES department (Department_id),
 FOREIGN KEY (Position_id) REFERENCES `position` (Position_id)
@@ -49,7 +49,7 @@ CREATE TABLE `group` (
 Group_id       SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 Group_name      VARCHAR(50) UNIQUE NOT NULL,
 Creator_id      SMALLINT UNSIGNED NOT NULL,
-Create_date     DATE DEFAULT NOW(),
+Create_date     DATETIME DEFAULT NOW(),
 FOREIGN KEY (Creator_id) REFERENCES `account` (Account_id)
 );
 INSERT INTO  `group`( Group_name         , Creator_id , Create_date  )
@@ -60,7 +60,7 @@ DROP TABLE IF EXISTS  group_account;
 CREATE TABLE group_account(
 Group_id        SMALLINT UNSIGNED PRIMARY KEY,
 Account_id      SMALLINT UNSIGNED NOT NULL,
-Join_date       DATE DEFAULT NOW(),
+Join_date       DATETIME DEFAULT NOW(),
 FOREIGN KEY (Account_id) REFERENCES `account` (Account_id)
 );
 INSERT INTO group_account ( Group_id  ,  Account_id ,  Join_date    )
