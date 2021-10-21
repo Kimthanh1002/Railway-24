@@ -20,7 +20,7 @@ User_name       VARCHAR(50) UNIQUE NOT NULL,
 Full_name       VARCHAR(50) NOT NULL,
 Department_id   SMALLINT UNSIGNED,
 Position_id     SMALLINT UNSIGNED,
-Create_date     DATE NOT NULL,
+Create_date     DATE DEFAULT NOW(),
 Sex             ENUM('male','female','unknow'),
 Age             TINYINT UNSIGNED NOT NULL check(Age>=18 AND Age<=45),
 FOREIGN KEY (Department_id) REFERENCES department (Department_id),
@@ -31,14 +31,14 @@ CREATE TABLE `group` (
 Group_id       SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 Group_name      VARCHAR(50) UNIQUE NOT NULL,
 Creator_id      SMALLINT UNSIGNED NOT NULL,
-Create_date     DATE NOT NULL,
+Create_date     DATE DEFAULT NOW(),
 FOREIGN KEY (Creator_id) REFERENCES `account` (Account_id)
 );
 DROP TABLE IF EXISTS  group_account;
 CREATE TABLE group_account(
 Group_id        SMALLINT UNSIGNED PRIMARY KEY,
 Account_id      SMALLINT UNSIGNED NOT NULL,
-Join_date       DATE NOT NULL,
+Join_date       DATE DEFAULT NOW(),
 FOREIGN KEY (Account_id) REFERENCES `account` (Account_id)
 );
 -- bài tập 2_tạo bảng mới
