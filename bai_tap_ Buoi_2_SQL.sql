@@ -32,11 +32,9 @@ Creator_id      SMALLINT UNSIGNED NOT NULL,
 Create_date     DATE,
 FOREIGN KEY (Creator_id) REFERENCES `account` (Account_id)
 );
-
 DROP TABLE IF EXISTS  group_account;
 CREATE TABLE group_account(
 Group_id        SMALLINT UNSIGNED PRIMARY KEY,
 Account_id      SMALLINT,
-Join_date       DATE
-
+Join_date       DATE NOT NULL
 );
