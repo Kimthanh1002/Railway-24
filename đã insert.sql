@@ -58,14 +58,15 @@ VALUE               ( N'sale'            ,     1      , '2021-10-21' ),
                     ( N'CEO'             ,     6      , '2015-10-21' );
 DROP TABLE IF EXISTS  group_account;
 CREATE TABLE group_account(
-Group_id        SMALLINT UNSIGNED PRIMARY KEY,
+Group_id        SMALLINT UNSIGNED,
 Account_id      SMALLINT UNSIGNED NOT NULL,
 Join_date       DATETIME DEFAULT NOW(),
+FOREIGN KEY (Group_id)   REFERENCES `group`   (Group_id),
 FOREIGN KEY (Account_id) REFERENCES `account` (Account_id)
 );
 INSERT INTO group_account ( Group_id  ,  Account_id ,  Join_date    )
 VALUE                     (    1      ,      4      ,  '2021-10-21'  ),
-                          (    2      ,      5      ,  '2020-08-05'  ),
+                          (    1      ,      5      ,  '2020-08-05'  ),
                           (    3      ,      2      ,  '2018-03-22'  );
   
 -- bài tập 2_tạo bảng mới
