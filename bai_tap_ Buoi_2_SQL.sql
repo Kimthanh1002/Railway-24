@@ -9,7 +9,7 @@ Department_name VARCHAR(50) UNIQUE
 );
 DROP TABLE IF EXISTS  `position`;
 CREATE TABLE `position` ( 
-Position_id     SMALLINT UNSIGNED ,
+Position_id     SMALLINT UNSIGNED PRIMARY KEY ,
 Position_name   VARCHAR(50) UNIQUE
 );
 DROP TABLE IF EXISTS  `account`;
@@ -19,11 +19,12 @@ Email           VARCHAR(50),
 User_name       VARCHAR(50) UNIQUE NOT NULL,
 Full_name       VARCHAR(50) NOT NULL,
 Department_id   SMALLINT UNSIGNED,
-Position_id     SMALLINT,
+Position_id     SMALLINT UNSIGNED,
 Create_date     DATE NOT NULL,
 Sex             ENUM('male','female','unknow'),
 Age             TINYINT UNSIGNED NOT NULL check(Age>=18 AND Age<=45),
-FOREIGN KEY (Department_id) REFERENCES department (Department_id)
+FOREIGN KEY (Department_id) REFERENCES department (Department_id),
+FOREIGN KEY (Position_id) REFERENCES `position` (Position_id)
 );
 DROP TABLE IF EXISTS  `group`;
 CREATE TABLE `group` (
