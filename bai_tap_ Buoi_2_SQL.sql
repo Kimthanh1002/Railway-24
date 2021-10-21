@@ -54,3 +54,4 @@ ET_English      TINYINT CHECK(ET_English>=0 AND ET_English<=50),
 Training_Class  VARCHAR(50),
 Evaluation_Notes TEXT
 );  
+
