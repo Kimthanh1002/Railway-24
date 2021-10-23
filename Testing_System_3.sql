@@ -126,6 +126,7 @@ VALUE                ( '３＞5'      	  		,   1 	 	   , 	1	  	,      5     ,'20
                      ( 'DATE!=DATETIME'		,   4		   , 	1		,	   6	 ,'2018-07-24'),
                      ( 'NaN là kiểu số'     ,   6  	 	   , 	2		,      6     ,'2019-10-20'),
                      ( 'Null là gtri rỗng'	,   4		   , 	1		,	   6	 ,'2018-07-07'),
+                     ( 'Câu hỏi 10'			,   4		   , 	1		,	   6	 ,'2018-07-07'),
                      ( 'NaN k phải kiểu số' ,   6  	       , 	2		,	   3	 ,'2019-08-29');
 DROP TABLE IF EXISTS answer;            
 CREATE TABLE 		 answer(
@@ -133,8 +134,9 @@ Answer_id	SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 Content		TEXT,
 Question_id SMALLINT UNSIGNED,
 is_correct	ENUM('True','False'),
+CONSTRAINT	fk_Question_id
 FOREIGN KEY (Question_id) REFERENCES question (Question_id)
-);
+ON DELETE CASCADE);
 INSERT INTO answer   ( Content				, Question_id  ,	is_correct  )
 VALUE                (   'answer1'			,	1  		   ,	'False'	 	),
 				     (   'answer2'		    ,   2		   ,  	'False'		),
@@ -156,7 +158,7 @@ Duration 	TIME 		DEFAULT('60:00'),
 Creator_id	SMALLINT	UNSIGNED,
 Create_date DATETIME	DEFAULT NOW(),
 FOREIGN KEY (Category_id) REFERENCES  category_question(Category_id),
-FOREIGN KEY (Creator_id)  REFERENCES  `account`		   (Account_id)
+FOREIGN KEY (Creator_id)  REFERENCES  `account`(Account_id)
 );
 INSERT INTO exam (`Code` , 	Title    ,Category_id, Duration, creator_id, Create_date)
 VALUE            ( 01	 ,   'HTML'  , 	4	  	 ,'120:00' ,	5		,'2020-10-20'),
@@ -169,6 +171,30 @@ VALUE            ( 01	 ,   'HTML'  , 	4	  	 ,'120:00' ,	5		,'2020-10-20'),
 				 ( 08    ,   'Java'  , 	1	     ,'90:00'  ,	4		,'2018-09-10'),
 				 ( 09    ,   'Ruby'	 , 	8		 ,'45:00'  ,	2		,'2021-08-20'),
 				 ( 10    ,   'Ruby'	 , 	8		 ,'90:00'  ,	3		,'2020-10-20');
+DROP TABLE IF EXISTS exam_question;
+CREATE TABLE		 exam_question(
+Exam_id 	SMALLINT 	UNSIGNED,
+Question_id	SMALLINT 	UNSIGNED,
+FOREIGN KEY (Question_id) REFERENCES question(Question_id)
+ON DELETE CASCADE,
+CONSTRAINT fk_Exam_id
+FOREIGN KEY (Exam_id) REFERENCES exam(Exam_id)
+ON DELETE CASCADE);
+INSERT INTO exam_question	(Exam_id,Question_id)
+VALUE 						(	01	,	5	),
+							(	01	,	7	),
+                            (	02	,	9	),
+                            (	03	,	8	),
+                            (	02	,	5	),
+                            (	04	,	5	),
+                            (	06	,	8	),
+                            (	06	,	7	),
+                            (	05	,	3	),
+                            (	07	,	2	),
+                            (	08	,	1	),
+                            (	10	,	10	),
+                            (	04	,	8	),
+                            (	09	,	3	);
                      -- *---- BÀI TẬP ----* --
  -- question2:  lấy ra tất cả phòng ban
  SELECT *
@@ -218,9 +244,29 @@ WHERE 	Department_name = 'Sale';
  -- question12: xoá tất cả các exam được tạo trươc ngày 20/12/2019
 DELETE FROM exam 
 WHERE 		Create_date<'2019-12-20';
+	-- *cách khác: dùng join (
+					  -- DELETE e, ex
+					  -- FROM	exam e JOIN exam_question ex
+                      -- ON		e.Exam_id	=	ex.Exam_id
+                      -- WHERE	Create_date<'2019-12-20')
+	-- *cách khác: dùng alter table (
+								-- ALTER TABLE exam_question
+                                -- ADD CONSTRAINT fk_Exam_id
+                                -- FOREIGN KEY (Exam_id) REFERENCES exam(Exam_id)
+                                -- ON DELETE CASCADE sau đó xoá bình thường;)
 -- question13: xoá tất cả các question có nội dung bắt đầu từ "câu hỏi"
-DELETE FROM question
-WHERE 		content LIKE 'câu hỏi%';
+DELETE FROM	question
+WHERE 	content		LIKE 'câu hỏi%';
+-- cách khác dùng join (
+					-- DELETE	q , ex, a
+					-- FROM	exam_question ex  
+					-- JOIN question q
+					-- ON		q.Question_id = ex.Question_id
+					-- JOIN answer a
+                    -- ON		q.Question_id = a.answer_id
+					-- WHERE	q.content like 'câu hỏi%';)
+-- cách khác: dùng alter table (
+					-- ALTER TABLE .....ây, lười quá, thôi bỏ qua :v )
 -- question14: UPDATE thông tin của id=5 thành Nguyen Ba Loc mail thànhloc.nguyenba@gmail.com
 UPDATE 		`account`
 SET 		Email= 'loc.nguyenba@gmail.com', Full_name='Nguyen Ba Loc'
@@ -228,4 +274,4 @@ WHERE 		Account_id= 5;
 -- question15: update account có id=5 sẽ thuộc group có id =4
 UPDATE 		group_account
 SET 		Group_id = 4
-WHERE 		Account_id=5;
+WHERE 		Account_id=5
