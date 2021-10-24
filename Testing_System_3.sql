@@ -195,6 +195,7 @@ VALUE 						(	01	,	5	),
                             (	10	,	10	),
                             (	04	,	8	),
                             (	09	,	3	);
+						
                      -- *---- BÀI TẬP ----* --
  -- question2:  lấy ra tất cả phòng ban
  SELECT *
@@ -248,7 +249,7 @@ WHERE 		Create_date<'2019-12-20';
 					  -- DELETE e, ex
 					  -- FROM	exam e JOIN exam_question ex
                       -- ON		e.Exam_id	=	ex.Exam_id
-                      -- WHERE	Create_date<'2019-12-20')
+                      -- WHERE	Create_date<'2019-12-20';)
 	-- *cách khác: dùng alter table (
 								-- ALTER TABLE exam_question
                                 -- ADD CONSTRAINT fk_Exam_id
