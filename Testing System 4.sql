@@ -246,11 +246,12 @@ SELECT	q.Content,COUNT(ex.Question_id) AS Số_Lượng
 FROM	question q JOIN exam_question ex
 ON		q.Question_id = ex.Question_id
 GROUP BY ex.Question_id
-HAVING COUNT(ex.Question_id) =(SELECT MAX(Số_Lượng) 
-								FROM (	SELECT q.Content,COUNT(ex.Question_id) AS Số_Lượng
-										FROM question q JOIN exam_question ex
-										ON q.Question_id = ex.Question_id
-										GROUP BY ex.Question_id) ks) ;
+HAVING COUNT(ex.Question_id) =(	SELECT COUNT(ex.Question_id) AS Số_Lượng
+								FROM exam_question ex
+								GROUP BY ex.Question_id
+                                ORDER BY Số_Lượng DESC
+                                LIMIT 1
+								)  ;
 	 -- bài này đau não dữ thần luôn ấyyy >.< --
  -- question6: thống kê mỗi category question được sử dụng trong bao nhiêu question
 SELECT	c.Category_name, 
@@ -278,12 +279,11 @@ FROM 	answer a
 JOIN 	question q 
 ON		a.Question_id	=	q.Question_id
 GROUP BY a.Question_id
-HAVING	COUNT(a.Question_id)	=	(SELECT MAX(Số_Lượng)
-									 FROM	(SELECT COUNT(a.Question_id) AS Số_lượng
+HAVING	COUNT(a.Question_id)	=	(SELECT COUNT(a.Question_id) AS Số_lượng
 											 FROM 	answer a
-											 JOIN 	question q 
-											 ON		a.Question_id	=	q.Question_id
-											 GROUP BY a.Question_id) res);
+											 GROUP BY a.Question_id
+                                             ORDER BY Số_lượng DESC
+                                             LIMIT		1);
 -- question9: thống kê số lượng account trong mỗi group
 SELECT	g.Group_name,
 		COUNT(ga.Account_id) AS số_lượng,
