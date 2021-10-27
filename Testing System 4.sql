@@ -300,12 +300,14 @@ FROM	`account` a
 JOIN	`position` p
 ON		a.Position_id	=	p.Position_id
 GROUP BY a.Position_id
-HAVING	COUNT(a.Account_id) = (SELECT MIN(số_lượng)
-							  FROM (SELECT COUNT(a.Account_id) AS số_lượng
+HAVING	COUNT(a.Account_id) = (		SELECT COUNT(a.Account_id) AS số_lượng
 									FROM	`account` a
 									JOIN	`position` p
 									ON		a.Position_id	=	p.Position_id
-									GROUP BY a.Position_id)res);
+									GROUP BY a.Position_id
+                                    ORDER BY số_lượng ASC
+                                    LIMIT 1
+								);
 -- question11: thống kê mỗi phòng ban có bao nhiêu dev, test, PM,Scrum Master
 SELECT  d.Department_name,
 		COUNT(a.Position_id) AS số_lượng,
